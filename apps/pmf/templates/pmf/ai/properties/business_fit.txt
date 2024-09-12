@@ -1,0 +1,2 @@
+Evaluate how well Salesforce aligns with the company’s industry-specific and unique feature requirements.
+For example, a healthcare company might need features for managing HIPAA compliance. Rank your answer for this criteria from 1 to 10, with 10 being the best fit.

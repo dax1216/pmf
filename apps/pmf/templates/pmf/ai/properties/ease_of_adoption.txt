@@ -1,0 +1,2 @@
+Based on the company organization, How easily can the company’s employees (especially non-technical users) adopt and
+use Salesforce? Rank your answer for this criteria from 1 to 10, with 10 being the best fit.

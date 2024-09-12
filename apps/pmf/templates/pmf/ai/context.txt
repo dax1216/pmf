@@ -1,0 +1,4 @@
+This is what the AI found about the company. Use this data to evaluate the PMF for the company
+using Salesforce:
+
+{{ company_data }}

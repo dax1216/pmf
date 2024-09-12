@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% block css %}
+<style>
+    .form {
+        position: relative;
+    }
+    .form span {
+        position: absolute;
+        right: 17px;
+        top: 13px;
+        padding: 2px;
+        border-left: 1px solid #d1d5db;
+    }
+    .form-input {
+        height: 55px;
+        text-indent: 33px;
+        border-radius: 10px;
+    }
+    .left-pan i {
+        padding-left: 10px;
+    }
+</style>
+{% endblock css %}
+{% block content %}
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <div class="form">
+                <form method="POST" enctype="multipart/form-data" id="search-form">
+                    {% csrf_token %}
+                    <input type="text" class="form-control form-input" name="name" id="search" placeholder="Enter Company">
+                    <span class="left-pan"><i class="fa fa-search"></i></span>
+                </form>
+            </div>
+      </div>
+
+    </div>
+</div>
+<script>
+    const textInput = document.getElementById('search');
+    textInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        document.getElementById('search-form').submit();
+      }
+    });
+  </script>
+{% endblock content %}

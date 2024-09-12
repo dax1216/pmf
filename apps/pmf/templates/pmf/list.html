@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Results{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row height d-flex justify-content-center align-items-center">
+        <div class="col">
+            <a href="{% url 'pmf:search' %}" class="btn btn-secondary">Back to Search</a>
+            <table class="table mt-5">
+                <thead>
+                    <tr>
+                        <th scope="col">Company</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Score</th>
+                </thead>
+                <tbody class="table-group-divider">
+                {% for c in object_list %}
+                    <tr>
+                        <td>{{ c.name }}</td>
+                        <td>{{ c.status }}</td>
+                        <td>{{ c.pmf_score }}%</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,2 @@
+Does Salesforce integrate well with the company's existing software infrastructure (e.g., ERP systems, email marketing,
+or accounting software)? Rank your answer for this criteria from 1 to 10, with 10 being the best fit.

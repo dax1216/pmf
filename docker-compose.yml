@@ -1,0 +1,23 @@
+services:
+  redis:
+    image: redis:latest
+    container_name: pmf_local_redis
+    ports:
+      - "6379:6379"
+  django: &django
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - ./:/app/
+      - ./.env:/app/.env
+    ports:
+      - 8000:8000
+    env_file:
+      - ./.env
+    command: /start
+  celeryworker:
+    <<: *django
+    image: pmf_local_celeryworker
+    ports: []
+    command: /start-celeryworker
