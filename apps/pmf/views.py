@@ -1,10 +1,12 @@
-from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django.views import generic
+
 from .models import Company
 from .tasks import run_pmf_score
-from django.urls import reverse
-from django.http import HttpResponseRedirect
+
 # Create your views here.
+
 
 class SearchView(generic.CreateView):
     model = Company

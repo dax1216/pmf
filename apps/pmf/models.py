@@ -1,11 +1,12 @@
-import json
 from django.db import models
+
 
 class ProcessStatus(models.TextChoices):
     PENDING = "pending", "Pending"
     IN_PROGRESS = "in_progress", "In Progress"
     COMPLETED = "completed", "Completed"
     FAILED = "failed", "Failed"
+
 
 class CriterionWeight:
     def weights(self):

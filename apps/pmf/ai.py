@@ -1,9 +1,8 @@
-import json
-
-from langchain_core.prompts import PromptTemplate
-from langchain_openai import ChatOpenAI
 from django.template.loader import render_to_string
 from langchain.output_parsers.openai_functions import JsonOutputFunctionsParser
+from langchain_core.prompts import PromptTemplate
+from langchain_openai import ChatOpenAI
+
 from .models import Company, ProcessStatus
 
 
@@ -19,7 +18,9 @@ def pmf_score_criteria():
         },
         "ease_of_adoption": {
             "type": "integer",
-            "description": render_to_string("pmf/ai/properties/ease_of_adoption.txt", {}),
+            "description": render_to_string(
+                "pmf/ai/properties/ease_of_adoption.txt", {}
+            ),
         },
         "cost": {
             "type": "integer",
@@ -31,20 +32,21 @@ def pmf_score_criteria():
         },
     }
     return [
-            {
-                "name": "pmf_score_criteria",
-                "description": "Evaluate the score per criteria based on the company information",
-                "parameters": {
-                    "type": "object",
-                    "properties": properties,
-                    "required": [
-                        "business_fit",
-                        "customization",
-                        "ease_of_adoption",
-                    ]
-                }
-            }
+        {
+            "name": "pmf_score_criteria",
+            "description": "Evaluate the score per criteria based on the company information",
+            "parameters": {
+                "type": "object",
+                "properties": properties,
+                "required": [
+                    "business_fit",
+                    "customization",
+                    "ease_of_adoption",
+                ],
+            },
+        }
     ]
+
 
 def evaluate_company_pmf_salesforce(company_id):
     company = Company.objects.get(id=company_id)
@@ -52,14 +54,12 @@ def evaluate_company_pmf_salesforce(company_id):
     company.save()
 
     prompt = PromptTemplate(
-        template=render_to_string("pmf/ai/company.txt", context={"company": company.name}),
+        template=render_to_string(
+            "pmf/ai/company.txt", context={"company": company.name}
+        ),
         input_variables=[],
     )
-    llm = ChatOpenAI(
-        model_name="gpt-4o",
-        temperature=0.2,
-        max_tokens=2054
-    )
+    llm = ChatOpenAI(model_name="gpt-4o", temperature=0.2, max_tokens=2054)
 
     chain = prompt | llm
     company_info = chain.invoke({})
@@ -76,9 +76,11 @@ def evaluate_company_pmf_salesforce(company_id):
     )
 
     chain = (
-            prompt |
-            llm.bind(function_call={"name": "pmf_score_criteria"}, functions=pmf_score_criteria()) |
-            JsonOutputFunctionsParser()
+        prompt
+        | llm.bind(
+            function_call={"name": "pmf_score_criteria"}, functions=pmf_score_criteria()
+        )
+        | JsonOutputFunctionsParser()
     )
 
     scores = chain.invoke({"company_data": company_info.content})
@@ -87,8 +89,3 @@ def evaluate_company_pmf_salesforce(company_id):
     company.status = ProcessStatus.COMPLETED
     company.save()
     return company
-
-
-
-
-
